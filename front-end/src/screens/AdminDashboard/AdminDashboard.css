@@ -1,0 +1,66 @@
+/* AdminDashboard.css */
+
+.admin-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.admin-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.add-bus-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-bus-link:hover {
+  background-color: #0056b3;
+}
+
+.bus-list {
+  list-style: none;
+  padding: 0;
+}
+
+.bus-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.bus-item:hover {
+  background-color: #e9ecef;
+  transform: translateY(-3px);
+}
+
+.bus-item .bus-actions {
+  display: flex;
+  align-items: center;
+}
+
+.bus-item .bus-actions a,
+.bus-item .bus-actions button {
+  margin-left: 10px;
+  color: #007bff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.bus-item .bus-actions a:hover,
+.bus-item .bus-actions button:hover {
+  color: #0056b3;
+}
