@@ -1,28 +1,20 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const mongoose = require("mongoose");
 
-const seatSchema = new Schema({
-  number: { type: Number, required: true },
-  isBooked: { type: Boolean, required: true }
+const busSchema = new mongoose.Schema({
+  busTransportProvider: { type: String, required: true },
+  busName: { type: String, required: true },
+  owner: { type: String, required: true },
+  conductor: { type: String, required: true },
+  cleaner: { type: String, required: true },
+  ownerMobile: { type: String, required: true },
+  conductorMobile: { type: String, required: true },
+  cleanerMobile: { type: String, required: true },
+  totalSeats: { type: Number, required: true },
+  bookedSeats: { type: [Number], default: [] },
+  departureTime: { type: String, required: true },
+  arrivingTime: { type: String, required: true },
+  fromCity: { type: String, required: true },
+  toCity: { type: String, required: true },
 });
 
-const pointSchema = new Schema({
-  location: { type: String, required: true },
-  lat: { type: Number, required: true },
-  long: { type: Number, required: true }
-});
-
-const busSchema = new Schema({
-  busNumber: { type: String, required: true },
-  provider: { type: Schema.Types.ObjectId, ref: 'Provider', required: true },
-  route: { type: Schema.Types.ObjectId, ref: 'Route', required: true },
-  from: { type: String, required: true },
-  to: { type: String, required: true },
-  boardingPoints: [pointSchema],
-  droppingPoints: [pointSchema],
-  seats: [seatSchema]
-});
-
-const Bus = mongoose.model('Bus', busSchema);
-
-module.exports = Bus;
+module.exports = mongoose.model("Bus", busSchema);

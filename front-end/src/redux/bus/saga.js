@@ -12,7 +12,7 @@ function* fetchBuses() {
 
 function* addBus(action) {
   try {
-    const response = yield fetch("http://localhost:5000/api/Buses", {
+    const response = yield fetch("http://localhost:5000/api/addbuses", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(action.payload),

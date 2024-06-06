@@ -1,0 +1,29 @@
+.city-dropdown {
+  margin-bottom: 20px;
+}
+
+.city-dropdown label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.city-dropdown select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.city-dropdown select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.city-dropdown option {
+  padding: 5px;
+}
+
+.city-dropdown option:hover {
+  background-color: #f0f0f0;
+}
