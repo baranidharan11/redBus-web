@@ -1,31 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import CityDropdown from "../CityDropdown/CityDropdown";
+import CityDropdown, { getCityNameById } from "../CityDropdown/CityDropdown";
 import { addBusRequest, updateBusRequest } from "../../redux/bus/action";
 import "./BusForm.css";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BusForm = ({ addBus, updateBus, bus }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const editBus = location.state ? location.state.bus : null;
+
   const [formState, setFormState] = useState({
-    busProvider: "",
+    busTransportProvider: "",
     busName: "",
     owner: "",
     conductor: "",
     cleaner: "",
-    providerMobile: "",
     ownerMobile: "",
     conductorMobile: "",
     cleanerMobile: "",
+    totalSeats: "",
+    bookedSeats: [],
     departureTime: "",
-    arrivalTime: "",
-    state: "",
-    city: "",
+    arrivingTime: "",
+    fromCity: "",
+    toCity: "",
   });
 
   useEffect(() => {
-    if (bus) {
-      setFormState(bus);
+    if (editBus) {
+      setFormState({
+        busTransportProvider: editBus.busTransportProvider,
+        busName: editBus.busName,
+        owner: editBus.owner,
+        conductor: editBus.conductor,
+        cleaner: editBus.cleaner,
+        ownerMobile: editBus.ownerMobile,
+        conductorMobile: editBus.conductorMobile,
+        cleanerMobile: editBus.cleanerMobile,
+        totalSeats: editBus.totalSeats,
+        bookedSeats: editBus.bookedSeats,
+        departureTime: editBus.departureTime,
+        arrivingTime: editBus.arrivingTime,
+        fromCity: getCityNameById(editBus.fromCity),
+        toCity: getCityNameById(editBus.toCity),
+      });
     }
-  }, [bus]);
+  }, [editBus]);
 
   const handleChange = (name, value) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
@@ -33,23 +54,45 @@ const BusForm = ({ addBus, updateBus, bus }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (bus) {
-      updateBus({ ...formState, _id: bus._id });
+    if (editBus) {
+      updateBus({ ...formState, _id: editBus._id });
     } else {
       addBus(formState);
     }
-    // Optionally add navigation or reset form state
+    navigate("/admin");
+  };
+
+  const handleReset = () => {
+    setFormState({
+      busTransportProvider: "",
+      busName: "",
+      owner: "",
+      conductor: "",
+      cleaner: "",
+      ownerMobile: "",
+      conductorMobile: "",
+      cleanerMobile: "",
+      totalSeats: "",
+      bookedSeats: [],
+      departureTime: "",
+      arrivingTime: "",
+      fromCity: "",
+      toCity: "",
+    });
   };
 
   return (
     <form className="bus-form" onSubmit={handleSubmit}>
+      <button onClick={() => navigate("/admin")} className="back-button">
+        Back
+      </button>
       <div className="form-group">
-        <label htmlFor="busProvider">Bus Provider</label>
+        <label htmlFor="busTransportProvider">Bus Transport Provider</label>
         <input
           type="text"
-          id="busProvider"
-          name="busProvider"
-          value={formState.busProvider}
+          id="busTransportProvider"
+          name="busTransportProvider"
+          value={formState.busTransportProvider}
           onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
       </div>
@@ -94,16 +137,6 @@ const BusForm = ({ addBus, updateBus, bus }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="providerMobile">Provider Mobile</label>
-        <input
-          type="text"
-          id="providerMobile"
-          name="providerMobile"
-          value={formState.providerMobile}
-          onChange={(e) => handleChange(e.target.name, e.target.value)}
-        />
-      </div>
-      <div className="form-group">
         <label htmlFor="ownerMobile">Owner Mobile</label>
         <input
           type="text"
@@ -134,6 +167,17 @@ const BusForm = ({ addBus, updateBus, bus }) => {
         />
       </div>
       <div className="form-group">
+        <label htmlFor="totalSeats">Total Seats</label>
+        <input
+          type="number"
+          id="totalSeats"
+          name="totalSeats"
+          value={formState.totalSeats}
+          onChange={(e) => handleChange(e.target.name, e.target.value)}
+        />
+      </div>
+      {/* Assuming bookedSeats is not editable in the form */}
+      <div className="form-group">
         <label htmlFor="departureTime">Departure Time</label>
         <input
           type="text"
@@ -144,31 +188,34 @@ const BusForm = ({ addBus, updateBus, bus }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="arrivalTime">Arrival Time</label>
+        <label htmlFor="arrivingTime">Arriving Time</label>
         <input
           type="text"
-          id="arrivalTime"
-          name="arrivalTime"
-          value={formState.arrivalTime}
+          id="arrivingTime"
+          name="arrivingTime"
+          value={formState.arrivingTime}
           onChange={(e) => handleChange(e.target.name, e.target.value)}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="state">State</label>
+        <label htmlFor="fromCity">From City</label>
         <CityDropdown
           state={formState.state}
-          handleChange={(value) => handleChange("state", value)}
+          handleChange={(value) => handleChange("fromCity", value)}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="city">City</label>
+        <label htmlFor="toCity">To City</label>
         <CityDropdown
           state={formState.state}
-          handleChange={(value) => handleChange("city", value)}
+          handleChange={(value) => handleChange("toCity", value)}
         />
       </div>
       <button type="submit" className="btn-submit">
         {bus ? "Update" : "Create"}
+      </button>
+      <button type="button" onClick={handleReset} className="btn-reset">
+        Reset
       </button>
     </form>
   );

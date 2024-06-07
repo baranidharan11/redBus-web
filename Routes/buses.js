@@ -10,8 +10,8 @@ const {
 } = require("../Controllers/bsController");
 
 // Routes
-router.post("/", createBus);
-router.get("/", getAllBuses);
+router.post("/createBus", createBus);
+router.get("/buses", getAllBuses);
 router.get("/:id", getBusById);
 router.put("/:id", updateBus);
 router.delete("/:id", deleteBus);

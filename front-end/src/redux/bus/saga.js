@@ -4,7 +4,9 @@ function* fetchBuses() {
   try {
     const response = yield fetch("http://localhost:5000/api/Buses");
     const data = yield response.json();
-    yield put({ type: "SET_BUSES", payload: data });
+    if (response?.ok) {
+      yield put({ type: "SET_BUSES", payload: data });
+    }
   } catch (error) {
     yield put({ type: "FETCH_BUSES_FAILURE", error });
   }
@@ -12,7 +14,7 @@ function* fetchBuses() {
 
 function* addBus(action) {
   try {
-    const response = yield fetch("http://localhost:5000/api/addbuses", {
+    const response = yield fetch("http://localhost:5000/api/createBus", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(action.payload),

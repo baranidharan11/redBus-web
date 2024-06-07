@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteBusRequest, fetchBusesRequest } from "../../redux/bus/action";
-import "./AdminDashboard.css"; // Import CSS file for styling
+import "./AdminDashboard.css";
+import { getCityNameById } from "../../components/CityDropdown/CityDropdown";
 
 const AdminDashboard = ({ buses, loading, error, fetchBuses, deleteBus }) => {
   const navigate = useNavigate();
@@ -29,20 +30,22 @@ const AdminDashboard = ({ buses, loading, error, fetchBuses, deleteBus }) => {
         Add New Bus
       </Link>
       <ul className="bus-list">
-        {buses.map((bus) => (
-          <li key={bus._id} className="bus-item">
-            {bus.busNumber} - {bus.from} to {bus.to}
-            <button onClick={() => handleEdit(bus)} className="edit-button">
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(bus._id)}
-              className="delete-button"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
+        {buses &&
+          buses.map((bus) => (
+            <li key={bus._id} className="bus-item">
+              {bus.busName} - {getCityNameById(bus.fromCity)} to{" "}
+              {getCityNameById(bus.toCity)}
+              <button onClick={() => handleEdit(bus)} className="edit-button">
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(bus._id)}
+                className="delete-button"
+              >
+                Delete
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );
